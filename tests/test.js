@@ -1,14 +1,14 @@
 var fs = require("fs");
 var path = require("path");
 var chai = require("chai");
-var ANTI = require("./anti");
+var ANTI = require("../anti");
 var inspect = require("util").inspect;
 
 var should = chai.should();
 var expect = chai.expect;
 
 // Load all test files
-var PathToTestDirectory = path.resolve(__dirname, './tests');
+var PathToTestDirectory = path.resolve(__dirname);
 var TestFiles = [];
 fs.readdirSync(PathToTestDirectory).forEach(function(file) {
 	// Fast check for file extension instead of fs.stat
