@@ -1,7 +1,8 @@
 {
   "name": "anti",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Anti is an XSS protection module.",
+  "author": "Schahriar SaffarShargh <info@schahriar.com>|www.schahriar.com",
   "main": "anti.js",
   "scripts": {
     "test": "mocha"
@@ -19,7 +20,6 @@
     "purge",
     "anti"
   ],
-  "author": "Schahriar SaffarShargh",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/schahriar/anti/issues"
