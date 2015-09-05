@@ -1,0 +1,35 @@
+{
+  "name": "anti",
+  "version": "0.1.0",
+  "description": "Anti is an XSS protection module.",
+  "main": "anti.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schahriar/anti.git"
+  },
+  "keywords": [
+    "xss",
+    "protection",
+    "cross-site",
+    "scripting",
+    "clean",
+    "purge",
+    "anti"
+  ],
+  "author": "Schahriar SaffarShargh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/schahriar/anti/issues"
+  },
+  "homepage": "https://github.com/schahriar/anti#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.3.0"
+  },
+  "dependencies": {
+    "xmldom": "^0.1.19"
+  }
+}
