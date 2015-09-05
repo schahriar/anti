@@ -1,0 +1,33 @@
+<!doctype html>
+
+<html lang="en">
+
+<body>
+  <h1>Let's throw some bad html at it</h1>
+  <x a="<b>" />
+  <y>
+    <a src="<b>" />
+    <y>
+      <script/XSS SRC="http://ha.ckers.org/xss.js"></script>
+      <script SRC="http://ha.ckers.org/xss.js"></script>
+</body>
+
+<head>
+  <!--<meta charset=-->"utf-8">
+
+  <title>Full Document Test</title>
+  <meta name="author" content="Test">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+</html>
+<!-- EXPECT -->
+<body>
+  <h1>Let's throw some bad html at it</h1>
+  <a src="%3Cb%3E"></a>&lt;script/XSS SRC="http://ha.ckers.org/xss.js">
+</body>

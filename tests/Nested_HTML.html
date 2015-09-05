@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta name="author" content="Test">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <h1>Time to nest some stuff</h1>
+  <nav>
+    <div class="brand">Test Brand</div>
+    <small class="slogan">The best brand</small>
+    <ul align="right" style="float:right">
+      <li class="active"><a href="www.example.com">Visit our website</a></li>
+      <li><a href="http://www.example.com">Home</a></li>
+      <li class="blue"><a href="https://www.example.com">About</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <div class="c-1-3">
+    </div>
+    
+  </div>
+</body>
+
+</html>
+<!-- EXPECT -->
+<body>
+  <h1>Time to nest some stuff</h1>
+  <nav>
+    <div class="brand">Test Brand</div>
+    <small class="slogan">The best brand</small>
+    <ul align="right" style="float%3Aright">
+      <li class="active"><a href="www.example.com">Visit our website</a></li>
+      <li><a href="http://www.example.com">Home</a></li>
+      <li class="blue"><a href="https://www.example.com">About</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <div class="c-1-3">
+    </div>
+    
+  </div>
+</body>
