@@ -106,15 +106,18 @@
       /* Test if this works in every case & if an attacker could confuse it */
       // Decide root from given document
       if (this._(this._DOCUMENT_.documentElement).tag === 'html') {
+        /// ROOT TAG -> HTML
         var _this = this;
-        // Find Body
-        /* Throw exception if body can't be found */
+        // Find Body -> This works better on Browsers as they tend to
+        // wrap the DOMParser output in a #document object
         this._(this._DOCUMENT_.documentElement).children().forEach(function (node) {
           if (node.tag === 'body') _this.root = node.node;
         })
       } else if (this._(this._DOCUMENT_.documentElement).tag === 'body') {
+        /// ROOT TAG -> BODY
         this.root = this._DOCUMENT_.documentElement;
       } else {
+        /// ROOT TAG -> ROOT
         this.root = this._DOCUMENT_;
       }
     };
@@ -174,16 +177,20 @@
       // PERFORMANCE COMPARISON OF CHAR SELECTION http://jsperf.com/charat-vs-regex-vs-prop/3 & LATER REVISIONS
       // PROP (STRING[index]) WAS SELECTED DUE TO CONSISTENT PERFORMANCE
       var CSSOM_KEY_VALUE_STORE = new Object;
-
+      
+      // Buffers
       var PROPERTY_BUFFER = "";
       var VALUE_BUFFER = "";
 
+      // Scope Indicators
       var PROPERTY_OPEN = true;
       var VALUE_OPEN = false;
 
+      // Determines validity of CSS values/URLs
       var VALUE_URL = "";      
       var IS_VALID = true;
 
+      // Characters that we ignore in the for loop
       var IGNORED_CHARS = " ,\n,\t".split(',');
 
       for (var i = 0; i < CSS_STRING.length; i++) {
@@ -208,8 +215,9 @@
             ///
             // if property is part of the list
             if (this._lookup(this.ACCEPTABLE_CSS_PROPERTIES, PROPERTY_BUFFER)) {
-              // Assign properties to the Store
+              // Check if property contains a url value
               if (VALUE_BUFFER.substring(0, 3) === 'url') {
+                // Determine format of the css value
                 if (VALUE_BUFFER[4] === "'") {
                   // FORMAT = url('http://example.com')
                   VALUE_URL = VALUE_BUFFER.substring(4,VALUE_BUFFER.length-2);
@@ -217,9 +225,11 @@
                   // FORMAT = url(http://example.com)
                   VALUE_URL = VALUE_BUFFER.substring(3,VALUE_BUFFER.length-1);
                 }
+                // Validate through *REGEX
                 IS_VALID = this._isValidURL(VALUE_URL);
                 VALUE_URL = "";
               }
+              // If Property is Valid : Assign properties to the Store
               if (IS_VALID) CSSOM_KEY_VALUE_STORE[PROPERTY_BUFFER.toLowerCase()] = VALUE_BUFFER;
               else IS_VALID = true;
             }
@@ -235,15 +245,18 @@
       // Covert back to inline string
       var OUTPUT_STRING = "";
       for (var key in CSSOM_KEY_VALUE_STORE) {
+        // Format = css-property: value;
         OUTPUT_STRING += key + ':' + CSSOM_KEY_VALUE_STORE[key] + '; ';
       }
 
+      // An Output argument to this function
+      // determines whether CSSOM or String returns
       return (OUTPUT === "OBJECT") ? CSSOM_KEY_VALUE_STORE : OUTPUT_STRING;
     }
     
     Anti.prototype._isValidURL = function ANTI_VALID_URL(URL_STRING) {
       // Credits to Diego Perini https://gist.github.com/dperini/729294
-      // License found at CREDITS file
+      // MIT License found at CREDITS file
       var URL_TEST = new RegExp(
         "^" +
           // protocol identifier
