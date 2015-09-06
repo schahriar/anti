@@ -75,17 +75,9 @@
 
     Anti.prototype.parse = function ANTI_PARSER(HTML_STRING, callback) {
       var ReturnAttributes = [];
-      // Context
-      var _this = this;
       
-      /* Fix this context mess with this.root, this._DOCUMENT_ */
-      
-      // Clean Context
-      this._DOCUMENT_ = null;
-      this.root = null;
-      
-      // Populates this.root, this._DOCUMENT_
-      this._parseToImmediateDOM(HTML_STRING.toString());
+      // Get document and is root
+      var ParsedROOT = this._parseToImmediateDOM(HTML_STRING.toString());
       
       /* HTML xmlns tag is retained on the wrapper
       /* Enable customization of wrapper element */
@@ -97,10 +89,10 @@
       // Copies all childen into variable DOM
       // Since the object above is not a simple JS Array (Should have a DOM-like structure on Browsers)
       // I took the liberty to copy only what we need into a clean Array
-      this._cleanDOM(this.root, this._(this.root).children());
+      this._cleanDOM(ParsedROOT, this._(ParsedROOT).children());
       
       // Clean Root
-      var BODY_CHILDREN = this._(this.root).children();
+      var BODY_CHILDREN = this._(ParsedROOT).children();
       this._(WRAPPER).children(BODY_CHILDREN);
 
       var e = (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
@@ -114,25 +106,27 @@
     }
 
     Anti.prototype._parseToImmediateDOM = function ANTI_TO_IMMEDIATE(HTML_STRING) {
-      this._DOCUMENT_ = this.Parser.parseFromString(HTML_STRING, "text/html");
+      var _ROOT_ = null;
+      var _DOCUMENT_ = this.Parser.parseFromString(HTML_STRING, "text/html");
 
       /* Test if this works in every case & if an attacker could confuse it */
       // Decide root from given document
-      if (this._(this._DOCUMENT_.documentElement).tag === 'html') {
+      if (this._(_DOCUMENT_.documentElement).tag === 'html') {
         /// ROOT TAG -> HTML
-        var _this = this;
         // Find Body -> This works better on Browsers as they tend to
         // wrap the DOMParser output in a #document object
-        this._(this._DOCUMENT_.documentElement).children().forEach(function (node) {
-          if (node.tag === 'body') _this.root = node.node;
+        this._(_DOCUMENT_.documentElement).children().forEach(function (node) {
+          if (node.tag === 'body') _ROOT_ = node.node;
         })
-      } else if (this._(this._DOCUMENT_.documentElement).tag === 'body') {
+      } else if (this._(_DOCUMENT_.documentElement).tag === 'body') {
         /// ROOT TAG -> BODY
-        this.root = this._DOCUMENT_.documentElement;
+        _ROOT_ = _DOCUMENT_.documentElement;
       } else {
         /// ROOT TAG -> ROOT
-        this.root = this._DOCUMENT_;
+        _ROOT_ = _DOCUMENT_;
       }
+      
+      return _ROOT_;
     };
 
     Anti.prototype._cleanDOM = function ANTI_TO_CLEAN(ROOT, DIRTYDOM) {
