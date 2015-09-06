@@ -42,10 +42,10 @@ You can pass options while creating an Anti instance or by modifying the Options
 e.g.
 ```javascript
 // Forces Anti to return a DOM object instead of a serialized string, hence you will be able to directly append the output
-var options = { serializer: false };
+var options = { serialize: false };
 
 var XSSParser = new Anti(options);
-// Alternatively XSSParses.Options.serializer = false
+// Alternatively XSSParses.Options.serialize = false
 var result = XSSParser.parse('<div>test</div>');
 console.log(result);
 // Output: [object HTMLDivElement]
