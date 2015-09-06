@@ -15,6 +15,26 @@ var result = XSSParser.parse('<div class="hello world">!</div><script>alert("xss
 console.log(result);
 // Output: <div class="anti"><div class="hello world">!</div></div>
 ```
+#### > Browsers
+Anti includes full support for browsers. It does not use Regular Expressions (RegEx) but rather the browser's internal method **DOMParser**. Support for this method is approximately 97% of all browsers (http://caniuse.com/#feat=xml-serializer) and provides superior security compared to innerHTML method. You can include **anti.js** or **anti.min.js** from the **build** folder like so:
+```html
+...
+<body>
+...
+<script src="build/anti.min.js"></script>
+</body>
+```
+Or using [**Browserify**](http://browserify.org/)
+```javascript
+// Install (refer to installation)
+var Anti = require('anti');
+// Refer to Usage
+```
+Alternatively when using [**Bower**](http://bower.io/)
+```javascript
+bower install anti
+// Include bower_components/anti/build/anti.min.js
+```
 
 ## Filters
 You can modify default filter lists that are extended to every instance of Anti. Filters are an array of lowercase strings that are compared for parsing. If an element tag is a part of the filter it will be kept in the final results. (e.g. script tag is not part of the ACCEPTABLE_BLOCK_ELEMENTS). Instance Filters are as follows:
