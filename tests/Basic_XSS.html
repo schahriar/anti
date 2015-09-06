@@ -1,3 +1,3 @@
 <a onmouseover=alert(document.cookie)>xxs link</a><img src="jav&#x0D;ascript:alert('XSS');"><div src="javascript:alert('ohXSS')" class='test function'>Hello World!</div><script>alert('xss')</script><script>alert('xss')</script><INPUT TYPE="IMAGE" SRC="javascript:alert('XSS');">
 <!-- EXPECT -->
-<a>xxs link</a><img src="jav%0Dascript%3Aalert('XSS')%3B"/><div class="test function" src="javascript%3Aalert('ohXSS')">Hello World!</div>
+<div class="anti"><a>xxs link</a><img src="jav%0Dascript%3Aalert('XSS')%3B"/><div class="test function" src="javascript%3Aalert('ohXSS')">Hello World!</div></div>

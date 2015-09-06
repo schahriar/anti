@@ -27,7 +27,7 @@ fs.readdirSync(PathToTestDirectory).forEach(function(file) {
 });
 
 
-var anti = new ANTI({ serialize: true });
+var anti = new ANTI({ serialize: true, experimentalInlineCSS: true });
 
 describe('XSS Test Suite', function(){
 	TestFiles.forEach(function(test) {
@@ -42,7 +42,7 @@ describe('XSS Test Suite', function(){
 
 describe('CSS Test Suite', function() {
 	it('should parse inline css', function(){
-		var result = anti._parseInlineCss("font-size: 12px; line-height: 2!important; color: #222; background-color: white; background: url(javascript:alert('XSS')); unknown-property: exp;");
-		expect(result).to.deep.equal("font-size:12px; line-height:2!important; color:#222; background-color:white; background:url('http%3A%2F%2Fwww.example.com%2Fimg.png');")
+		var result = anti._parseInlineCSS("font-size: 12px; line-height: 2!important; color: #222; background-color: white; background: url(javascript:alert('XSS')); unknown-property: exp;");
+		expect(result).to.equal("font-size:12px; line-height:2!important; color:#222; background-color:white; ")
 	})
 })

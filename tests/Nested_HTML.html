@@ -18,7 +18,7 @@
   <nav>
     <div class="brand">Test Brand</div>
     <small class="slogan">The best brand</small>
-    <ul align="right" style="float:right">
+    <ul align="right" style="float:right;">
       <li class="active"><a href="www.example.com">Visit our website</a></li>
       <li><a href="http://www.example.com">Home</a></li>
       <li class="blue"><a href="https://www.example.com">About</a></li>
@@ -33,15 +33,15 @@
 
 </html>
 <!-- EXPECT -->
-<body>
+<div class="anti">
   <h1>Time to nest some stuff</h1>
   <nav>
     <div class="brand">Test Brand</div>
     <small class="slogan">The best brand</small>
-    <ul align="right" style="float%3Aright">
+    <ul align="right" style="float:right; ">
       <li class="active"><a href="www.example.com">Visit our website</a></li>
-      <li><a href="http://www.example.com">Home</a></li>
-      <li class="blue"><a href="https://www.example.com">About</a></li>
+      <li><a href="http%3A%2F%2Fwww.example.com">Home</a></li>
+      <li class="blue"><a href="https%3A%2F%2Fwww.example.com">About</a></li>
     </ul>
   </nav>
   <div class="container">
@@ -49,4 +49,4 @@
     </div>
     
   </div>
-</body>
+</div>

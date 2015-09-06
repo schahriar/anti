@@ -78,6 +78,8 @@
       // Context
       var _this = this;
       
+      /* Fix this context mess with this.root, this._DOCUMENT_ */
+      
       // Clean Context
       this._DOCUMENT_ = null;
       this.root = null;
@@ -85,15 +87,19 @@
       // Populates this.root, this._DOCUMENT_
       this._parseToImmediateDOM(HTML_STRING.toString());
       
+      // Wrapper element
+      var WRAPPER = this.Parser.parseFromString("<div class='anti'></div>", "text/html").documentElement;
+      
       // Copies all childen into variable DOM
       // Since the object above is not a simple JS Array (Should have a DOM-like structure on Browsers)
       // I took the liberty to copy only what we need into a clean Array
       this._cleanDOM(this.root, this._(this.root).children());
-      this.root.attributes = {};
       
-      /* Output a fixed root */
+      // Clean Root
+      var BODY_CHILDREN = this._(this.root).children();
+      this._(WRAPPER).children(BODY_CHILDREN);
 
-      var e = (this.Options.serialize) ? this.Serializer.serializeToString(this.root) : this.root;
+      var e = (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
 
       ReturnAttributes.push(e);
       
@@ -305,7 +311,7 @@
 
       var _this = this;
       return {
-        tag: node.nodeName.toLowerCase() || null,
+        tag: (node.nodeName)?node.nodeName.toLowerCase():node.tagName,
         remove: function ANTI_DOM_REMOVE() {
           // Removes Current Node
           node.parentNode.removeChild(node)
@@ -349,7 +355,7 @@
                I would be glad to avoid 3 loops in a recursive function
             */
             for (var i = 0; i < children.length; i++) {
-              NODE_CHILDREN[i] = children[i].node.cloneNode(true);
+              NODE_CHILDREN[i] = (children[i].node)?children[i].node.cloneNode(true):children[i].cloneNode(true);
             }
             // Remove all current children
             while (node.lastChild) {
