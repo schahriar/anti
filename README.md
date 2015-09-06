@@ -71,6 +71,10 @@ var result = XSSParser.parse('<div>test</div>');
 console.log(result);
 // Output: [object HTMLDivElement]
 ```
+Options include:
+- serialize: Boolean(default: true) Returns a serialized/string DOM instead of a DOM Object
+- wrapper: String(default: "<div class='anti'></div>") A single wrapper element that wraps around the output
+- experimentalInlineCSS: Boolean(default: false) Allows for inline style parsing and filtering
 
 ## Experimental -> Inline CSS Parser
 This feature allows for filtering of inline CSS styles (e.g. style="font-size: 2px; color: red;"). You can enable this feature by passing { experimentalInlineCSS: true } options to the Anti constructor. Note that this method uses an internal parsing function with only one RegEx test to test for validity of url() values. The filter for this method is defined as **ACCEPTABLE_CSS_PROPERTIES**.

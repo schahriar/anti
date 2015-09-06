@@ -46,8 +46,9 @@
   var Module = (function () {
     var Anti = function ANTI_LOCAL(options) {
       this.Options = options || {};
-      // Set Default Serializer to true
+      // Default options
       if(!this.Options.serialize) this.Options.serialize = true;
+      if(!this.Options.wrapper) this.Options.wrapper = "<div class='anti'></div>";
       
       this.Parser = new ANTI_DOM_PARSER({
         errorHandler: {
@@ -79,10 +80,9 @@
       // Get document and is root
       var ParsedROOT = this._parseToImmediateDOM(HTML_STRING.toString());
       
-      /* HTML xmlns tag is retained on the wrapper
-      /* Enable customization of wrapper element */
+      /* HTML xmlns tag is retained on the wrapper */
       // Wrapper element
-      var WRAPPER = this.Parser.parseFromString("<div class='anti'></div>", "text/html").documentElement;
+      var WRAPPER = this.Parser.parseFromString(this.Options.wrapper, "text/html").documentElement;
       // Browser Fix (Browsers wrap the element in an HTML parent)
       if (WRAPPER.nodeName.toLowerCase() === 'html') WRAPPER = (WRAPPER.childNodes[1])?WRAPPER.childNodes[1].childNodes[0]:WRAPPER;
       
