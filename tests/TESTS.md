@@ -10,7 +10,7 @@ Input and output are separated with an HTML comment tag (<\!-- EXPECT -->)
 ```html
 <div class="test">Hey</div>
 <script id="willbeignored"></script>
-<\!-- EXPECT -->
+<!-- EXPECT -->
 <div class="anti">
     <div class="test">Hey</div>
 </div>
