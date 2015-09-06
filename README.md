@@ -8,11 +8,12 @@ npm install anti
 ```
 
 ## Usage
+You can use Anti in a browser or in NodeJS, pass it an unsanitized string of DOM and get a sanitized string (or a DOM object) in return. Note that the returned String/DOMObject will be wrapped around a div with class="anti".
 ```javascript
 var XSSParser = new Anti();
 var result = XSSParser.parse('<div class="hello world">!</div><script>alert("xss")</script>');
 console.log(result);
-// Output: <div class="hello world">!</div>
+// Output: <div class="anti"><div class="hello world">!</div></div>
 ```
 
 ## Filters
@@ -34,7 +35,7 @@ XSSParser.ACCEPTABLE_UNSANITARY_ATTRIBUTES = [];
 
 var result = XSSParser.parse('<div title="test" style="display:none">Hello World!</div><section>This will be excluded</section>');
 console.log(result);
-// Output: <div title="test">Hello World!</div>
+// Output: <div class="anti"><div title="test">Hello World!</div></div>
 ```
 
 ## Options
