@@ -176,7 +176,7 @@
       return (ARRAY.indexOf(NAME_STRING.toLowerCase()) >= 0);
     }
 
-    Anti.prototype._parseInlineCss = function ANTI_CSS_INLINE(CSS_STRING, OUTPUT) {
+    Anti.prototype._parseInlineCSS = function ANTI_CSS_INLINE(CSS_STRING, OUTPUT) {
       // PERFORMANCE COMPARISON OF CHAR SELECTION http://jsperf.com/charat-vs-regex-vs-prop/3 & LATER REVISIONS
       // PROP (STRING[index]) WAS SELECTED DUE TO CONSISTENT PERFORMANCE
       var CSSOM_KEY_VALUE_STORE = new Object;
