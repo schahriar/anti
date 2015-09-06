@@ -126,7 +126,7 @@
       var _this = this;
       
       /* Improve performance and reduce resources */
-      // Poor man's cache solution (bad for GC, I know)
+      // Cache solution
       var EL_ATTRIBUTES_CACHE = [];
       var CLEANDOM = [];
       
