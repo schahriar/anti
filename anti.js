@@ -152,7 +152,7 @@
               /* Replace with inline-css xss protection */
               if (attr.name === 'style') {
                 // If InlineCSS is enabled
-                if(this.Options.experimentalInlineCSS) node.setAttribute(attr.name, _this._parseInlineCSS(attr.value));
+                if(_this.Options.experimentalInlineCSS) node.setAttribute(attr.name, _this._parseInlineCSS(attr.value));
               } else {
                 node.setAttribute(attr.name, encodeURIComponent(attr.value));
               }
