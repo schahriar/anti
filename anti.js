@@ -155,7 +155,6 @@
               /* Add option for cross site linking/replacement */
               // Re-assign attribute with URL encoding
               node.removeAttribute(attr.name);
-              /* Replace with inline-css xss protection */
               if (attr.name === 'style') {
                 // If InlineCSS is enabled
                 if(_this.Options.experimentalInlineCSS) node.setAttribute(attr.name, _this._parseInlineCSS(attr.value));
