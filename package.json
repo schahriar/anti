@@ -1,6 +1,6 @@
 {
   "name": "anti",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Anti is an XSS protection module.",
   "author": "Schahriar SaffarShargh <info@schahriar.com>|www.schahriar.com",
   "main": "anti.js",
