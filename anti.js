@@ -95,14 +95,7 @@
       var BODY_CHILDREN = this._(ParsedROOT).children();
       this._(WRAPPER).children(BODY_CHILDREN);
 
-      var e = (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
-
-      ReturnAttributes.push(e);
-      
-      // Allows for Async/Sync calls
-      /* implement async functionality to forEach loops */
-      if ((callback) && (callback.constructor === Function)) callback.apply(null, ReturnAttributes);
-      else return (ReturnAttributes.length > 1) ? ReturnAttributes : ReturnAttributes[0];
+      return (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
     }
 
     Anti.prototype._parseToImmediateDOM = function ANTI_TO_IMMEDIATE(HTML_STRING) {
@@ -137,7 +130,6 @@
       var EL_ATTRIBUTES_CACHE = [];
       var CLEANDOM = [];
       
-      /* Implement async method */
       // Heavily recursive
       DIRTYDOM.forEach(function (node, index) {
         // Check if element is acceptable || #text
