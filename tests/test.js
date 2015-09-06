@@ -32,10 +32,9 @@ var anti = new ANTI({ serialize: true, experimentalInlineCSS: true });
 describe('XSS Test Suite', function(){
 	TestFiles.forEach(function(test) {
 		it(test.name || "Unknown", function(done){
-			anti.parse(test.input(), function(result) {
-				expect(result).to.be.equal(test.expects());
-				done();
-			})
+			var result = anti.parse(test.input())
+			expect(result).to.be.equal(test.expects());
+			done();
 		})
 	})
 });
