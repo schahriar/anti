@@ -46,6 +46,9 @@
   var Module = (function () {
     var Anti = function ANTI_LOCAL(options) {
       this.Options = options || {};
+      // Set Default Serializer to true
+      if(!this.Options.serializer) this.Options.serializer = true;
+      
       this.Parser = new ANTI_DOM_PARSER({
         errorHandler: {
           warning: new Function,
