@@ -87,10 +87,12 @@
       // Populates this.root, this._DOCUMENT_
       this._parseToImmediateDOM(HTML_STRING.toString());
       
-      /* Browsers always wrap the output in HTML tag */
+      /* HTML xmlns tag is retained on the wrapper
       /* Enable customization of wrapper element */
       // Wrapper element
       var WRAPPER = this.Parser.parseFromString("<div class='anti'></div>", "text/html").documentElement;
+      // Browser Fix (Browsers wrap the element in an HTML parent)
+      if (WRAPPER.nodeName.toLowerCase() === 'html') WRAPPER = (WRAPPER.childNodes[1])?WRAPPER.childNodes[1].childNodes[0]:WRAPPER;
       
       // Copies all childen into variable DOM
       // Since the object above is not a simple JS Array (Should have a DOM-like structure on Browsers)
