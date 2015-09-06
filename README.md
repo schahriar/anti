@@ -74,10 +74,10 @@ console.log(result);
 Options include:
 - serialize: Boolean(default: true) Returns a serialized/string DOM instead of a DOM Object
 - wrapper: String(default: "<div class='anti'></div>") A single wrapper element that wraps around the output
-- experimentalInlineCSS: Boolean(default: false) Allows for inline style parsing and filtering
+- experimentalInlineCSS: Boolean(default: false) Allows for inline style parsing and filtering (!EXPERIMENTAL)
 
 ## Experimental -> Inline CSS Parser
-This feature allows for filtering of inline CSS styles (e.g. style="font-size: 2px; color: red;"). You can enable this feature by passing { experimentalInlineCSS: true } options to the Anti constructor. Note that this method uses an internal parsing function with only one RegEx test to test for validity of url() values. The filter for this method is defined as **ACCEPTABLE_CSS_PROPERTIES**.
+To use experimental feature you'll need to include either **anti.experimental.js** or **anti.experimental.min.js** from the **build** folder. Note that experimental features are available by default in the NodeJS version. Inline CSS feature brings in a built in CSS parser and Url Validator. This feature allows for filtering of inline CSS styles (e.g. style="font-size: 2px; color: red;"). You can enable this feature by passing { experimentalInlineCSS: true } options to the Anti constructor. Note that this method uses an internal parsing function with only one RegEx test to test for validity of url() values. The filter for this method is defined as **ACCEPTABLE_CSS_PROPERTIES**.
 
 ## Disclaimer:
 This module utilizes a doze of insanity and a drop of blood from the Black Witch of the North to bring joy to your divs and html elements without the hassle of unwanted magic spells and bacteria incorporated with your non-sanitary method of sanitization. Thus it is highly experimental to the extent that even this sentence is currently being tested in our non-existent laboratory which I will assure you is experimental itself. Use it at your own risk.

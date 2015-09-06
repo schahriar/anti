@@ -46,8 +46,9 @@
   var Module = (function () {
     var Anti = function ANTI_LOCAL(options) {
       this.Options = options || {};
-      // Set Default Serializer to true
+      // Default options
       if(!this.Options.serialize) this.Options.serialize = true;
+      if(!this.Options.wrapper) this.Options.wrapper = "<div class='anti'></div>";
       
       this.Parser = new ANTI_DOM_PARSER({
         errorHandler: {
@@ -62,15 +63,12 @@
       /// - DOM SAFELIST - ///
       /* Add support for SVG */
       /* Kills data attributes */
+      /* v0.2: Allow for individual attribute filtering per block && value per property */
       this.ACCEPTABLE_BLOCK_ELEMENTS = ["#text", "a", "abbr", "acronym", "address", "article", "aside", "b", "bdi", "bdo", "big", "blockquote", "br", "caption", "center", "cite", "code", "colgroup", "dd", "del", "del", "dfn", "dir", "div", "dl", "dt", "em", "figcaption", "figure", "font", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "i", "img", "ins", "ins", "kbd", "label", "li", "map", "map", "mark", "menu", "nav", "ol", "p", "pre", "q", "rp", "rt", "ruby", "s", "samp", "section", "small", "span", "strike", "strong", "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "time", "tr", "tt", "u", "ul", "var"];
       this.ACCEPTABLE_SANITARY_ATTRIBUTES = ["abbr", "align", "alt", "axis", "bgcolor", "border", "cellpadding", "cellspacing", "class", "clear", "color", "cols", "colspan", "compact", "coords", "dir", "face", "headers", "height", "hreflang", "hspace", "ismap", "lang", "language", "nohref", "nowrap", "rel", "rev", "rows", "rowspan", "rules", "scope", "scrolling", "shape", "size", "span", "start", "summary", "tabindex", "target", "title", "type", "valign", "value", "vspace", "width"];
 
       this.ACCEPTABLE_UNSANITARY_ATTRIBUTES = ["background", "cite", "href", "longdesc", "src", "usemap", "style", "xlink:href"];
-      /// - ------------ - ///
-      /// - CSS SAFELIST - ///
-      // This list is derived from document.createElement('div').style
-      this.ACCEPTABLE_CSS_PROPERTIES = ["align-content", "align-items", "align-self", "alignment-baseline", "all", "animation", "animation-delay", "animation-direction", "animation-duration", "animation-fill-mode", "animation-iteration-count", "animation-name", "animation-play-state", "animation-timing-function", "backface-visibility", "background", "background-attachment", "background-blend-mode", "background-clip", "background-color", "background-image", "background-origin", "background-position", "background-position-x", "background-position-y", "background-repeat", "background-repeat-x", "background-repeat-y", "background-size", "baseline-shift", "border", "border-bottom", "border-bottom-color", "border-bottom-left-radius", "border-bottom-right-radius", "border-bottom-style", "border-bottom-width", "border-collapse", "border-color", "border-image", "border-image-outset", "border-image-repeat", "border-image-slice", "border-image-source", "border-image-width", "border-left", "border-left-color", "border-left-style", "border-left-width", "border-radius", "border-right", "border-right-color", "border-right-style", "border-right-width", "border-spacing", "border-style", "border-top", "border-top-color", "border-top-left-radius", "border-top-right-radius", "border-top-style", "border-top-width", "border-width", "bottom", "box-shadow", "box-sizing", "buffered-rendering", "caption-side", "clear", "clip", "clip-path", "clip-rule", "color", "color-interpolation", "color-interpolation-filters", "color-rendering", "content", "counter-increment", "counter-reset", "css-text", "cursor", "cx", "cy", "direction", "display", "dominant-baseline", "empty-cells", "enable-background", "fill", "fill-opacity", "fill-rule", "filter", "flex", "flex-basis", "flex-direction", "flex-flow", "flex-grow", "flex-shrink", "flex-wrap", "float", "flood-color", "flood-opacity", "font", "font-family", "font-kerning", "font-size", "font-stretch", "font-style", "font-variant", "font-variant-ligatures", "font-weight", "glyph-orientation-horizontal", "glyph-orientation-vertical", "height", "image-rendering", "isolation", "justify-content", "left", "length", "letter-spacing", "lighting-color", "line-height", "list-style", "list-style-image", "list-style-position", "list-style-type", "margin", "margin-bottom", "margin-left", "margin-right", "margin-top", "marker", "marker-end", "marker-mid", "marker-start", "mask", "mask-type", "max-height", "max-width", "max-zoom", "min-height", "min-width", "min-zoom", "mix-blend-mode", "object-fit", "object-position", "opacity", "order", "orientation", "orphans", "outline", "outline-color", "outline-offset", "outline-style", "outline-width", "overflow", "overflow-wrap", "overflow-x", "overflow-y", "padding", "padding-bottom", "padding-left", "padding-right", "padding-top", "page", "page-break-after", "page-break-before", "page-break-inside", "paint-order", "parent-rule", "null", "perspective", "perspective-origin", "pointer-events", "position", "quotes", "r", "resize", "right", "rx", "ry", "shape-image-threshold", "shape-margin", "shape-outside", "shape-rendering", "size", "speak", "src", "stop-color", "stop-opacity", "stroke", "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin", "stroke-miterlimit", "stroke-opacity", "stroke-width", "tab-size", "table-layout", "text-align", "text-anchor", "text-decoration", "text-indent", "text-overflow", "text-rendering", "text-shadow", "text-transform", "top", "touch-action", "transform", "transform-origin", "transform-style", "transition", "transition-delay", "transition-duration", "transition-property", "transition-timing-function", "unicode-bidi", "unicode-range", "user-zoom", "vector-effect", "vertical-align", "visibility", "white-space", "widows", "width", "will-change", "word-break", "word-spacing", "word-wrap", "writing-mode", "x", "y", "z-index", "zoom"];
-      /// - ------------ - ///
+      /*</EXPERIMENTAL>*/
     };
 
     Anti.prototype.parse = function ANTI_PARSER(HTML_STRING, callback) {
@@ -79,10 +77,9 @@
       // Get document and is root
       var ParsedROOT = this._parseToImmediateDOM(HTML_STRING.toString());
       
-      /* HTML xmlns tag is retained on the wrapper
-      /* Enable customization of wrapper element */
+      /* HTML xmlns tag is retained on the wrapper */
       // Wrapper element
-      var WRAPPER = this.Parser.parseFromString("<div class='anti'></div>", "text/html").documentElement;
+      var WRAPPER = this.Parser.parseFromString(this.Options.wrapper, "text/html").documentElement;
       // Browser Fix (Browsers wrap the element in an HTML parent)
       if (WRAPPER.nodeName.toLowerCase() === 'html') WRAPPER = (WRAPPER.childNodes[1])?WRAPPER.childNodes[1].childNodes[0]:WRAPPER;
       
@@ -95,14 +92,7 @@
       var BODY_CHILDREN = this._(ParsedROOT).children();
       this._(WRAPPER).children(BODY_CHILDREN);
 
-      var e = (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
-
-      ReturnAttributes.push(e);
-      
-      // Allows for Async/Sync calls
-      /* implement async functionality to forEach loops */
-      if ((callback) && (callback.constructor === Function)) callback.apply(null, ReturnAttributes);
-      else return (ReturnAttributes.length > 1) ? ReturnAttributes : ReturnAttributes[0];
+      return (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
     }
 
     Anti.prototype._parseToImmediateDOM = function ANTI_TO_IMMEDIATE(HTML_STRING) {
@@ -133,11 +123,10 @@
       var _this = this;
       
       /* Improve performance and reduce resources */
-      // Poor man's cache solution (bad for GC, I know)
+      // Cache solution
       var EL_ATTRIBUTES_CACHE = [];
       var CLEANDOM = [];
       
-      /* Implement async method */
       // Heavily recursive
       DIRTYDOM.forEach(function (node, index) {
         // Check if element is acceptable || #text
@@ -155,7 +144,7 @@
               node.removeAttribute(attr.name);
               if (attr.name === 'style') {
                 // If InlineCSS is enabled
-                if(_this.Options.experimentalInlineCSS) node.setAttribute(attr.name, _this._parseInlineCSS(attr.value));
+                if(_this.Options.experimentalInlineCSS && _this._parseInlineCSS) node.setAttribute(attr.name, _this._parseInlineCSS(attr.value));
               } else {
                 node.setAttribute(attr.name, encodeURIComponent(attr.value));
               }
@@ -179,128 +168,7 @@
       return (ARRAY.indexOf(NAME_STRING.toLowerCase()) >= 0);
     }
 
-    Anti.prototype._parseInlineCSS = function ANTI_CSS_INLINE(CSS_STRING, OUTPUT) {
-      // PERFORMANCE COMPARISON OF CHAR SELECTION http://jsperf.com/charat-vs-regex-vs-prop/3 & LATER REVISIONS
-      // PROP (STRING[index]) WAS SELECTED DUE TO CONSISTENT PERFORMANCE
-      var CSSOM_KEY_VALUE_STORE = new Object;
-      
-      // Buffers
-      var PROPERTY_BUFFER = "";
-      var VALUE_BUFFER = "";
-
-      // Scope Indicators
-      var PROPERTY_OPEN = true;
-      var VALUE_OPEN = false;
-
-      // Determines validity of CSS values/URLs
-      var VALUE_URL = "";      
-      var IS_VALID = true;
-
-      // Characters that we ignore in the for loop
-      var IGNORED_CHARS = " ,\n,\t".split(',');
-
-      for (var i = 0; i < CSS_STRING.length; i++) {
-        // If Char is not part of the ACCEPTABLE_CHARS
-        if (this._lookup(IGNORED_CHARS, CSS_STRING[i].toLowerCase())) continue;
-
-        if (PROPERTY_OPEN) {
-          if (CSS_STRING[i] === ':') {
-            /// Switch to Value Mode
-            PROPERTY_OPEN = false;
-            VALUE_OPEN = true;
-            ///
-          } else {
-            // Buffer property
-            PROPERTY_BUFFER += CSS_STRING[i];
-          }
-        } else {
-          if (CSS_STRING[i] === ';') { /* ALL CSS VALUES MUST END WITH A SEMI-COLON, Make a pull request if this is not valid it would be easy to do a EOL validation here */
-            /// Switch to Property Mode
-            PROPERTY_OPEN = true;
-            VALUE_OPEN = false;
-            ///
-            // if property is part of the list
-            if (this._lookup(this.ACCEPTABLE_CSS_PROPERTIES, PROPERTY_BUFFER)) {
-              // Check if property contains a url value
-              if (VALUE_BUFFER.substring(0, 3) === 'url') {
-                // Determine format of the css value
-                if (VALUE_BUFFER[4] === "'") {
-                  // FORMAT = url('http://example.com')
-                  VALUE_URL = VALUE_BUFFER.substring(4,VALUE_BUFFER.length-2);
-                } else {
-                  // FORMAT = url(http://example.com)
-                  VALUE_URL = VALUE_BUFFER.substring(3,VALUE_BUFFER.length-1);
-                }
-                // Validate through *REGEX
-                IS_VALID = this._isValidURL(VALUE_URL);
-                VALUE_URL = "";
-              }
-              // If Property is Valid : Assign properties to the Store
-              if (IS_VALID) CSSOM_KEY_VALUE_STORE[PROPERTY_BUFFER.toLowerCase()] = VALUE_BUFFER;
-              else IS_VALID = true;
-            }
-            // Reset buffers
-            PROPERTY_BUFFER = VALUE_BUFFER = "";
-          } else {
-            // Buffer value
-            VALUE_BUFFER += CSS_STRING[i];
-          }
-        }
-      }
-      
-      // Covert back to inline string
-      var OUTPUT_STRING = "";
-      for (var key in CSSOM_KEY_VALUE_STORE) {
-        // Format = css-property: value;
-        OUTPUT_STRING += key + ':' + CSSOM_KEY_VALUE_STORE[key] + '; ';
-      }
-
-      // An Output argument to this function
-      // determines whether CSSOM or String returns
-      return (OUTPUT === "OBJECT") ? CSSOM_KEY_VALUE_STORE : OUTPUT_STRING;
-    }
-    
-    Anti.prototype._isValidURL = function ANTI_VALID_URL(URL_STRING) {
-      // Credits to Diego Perini https://gist.github.com/dperini/729294
-      // MIT License found at CREDITS file
-      var URL_TEST = new RegExp(
-        "^" +
-          // protocol identifier
-          "(?:(?:https?|ftp)://)" +
-          // user:pass authentication
-          "(?:\\S+(?::\\S*)?@)?" +
-          "(?:" +
-            // IP address exclusion
-            // private & local networks
-            "(?!(?:10|127)(?:\\.\\d{1,3}){3})" +
-            "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
-            "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +
-            // IP address dotted notation octets
-            // excludes loopback network 0.0.0.0
-            // excludes reserved space >= 224.0.0.0
-            // excludes network & broacast addresses
-            // (first & last IP address of each class)
-            "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
-            "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
-            "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
-          "|" +
-            // host name
-            "(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)" +
-            // domain name
-            "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*" +
-            // TLD identifier
-            "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" +
-            // TLD may end with dot
-            "\\.?" +
-          ")" +
-          // port number
-          "(?::\\d{2,5})?" +
-          // resource path
-          "(?:[/?#]\\S*)?" +
-        "$", "i"
-      );
-      return URL_TEST.test(URL_STRING);
-    }
+    /*</EXPERIMENTAL>*/
     
     // Helper functions (jQuery like)
     Anti.prototype._ = function ANTI_NODE_EXT(node) {
