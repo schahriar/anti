@@ -19,6 +19,7 @@
     "scripting",
     "clean",
     "purge",
+    "DOMParser",
     "anti"
   ],
   "license": "MIT",
