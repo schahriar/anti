@@ -88,6 +88,7 @@
       // Populates this.root, this._DOCUMENT_
       this._parseToImmediateDOM(HTML_STRING.toString());
       
+      /* Browsers always wrap the output in HTML tag */
       /* Enable customization of wrapper element */
       // Wrapper element
       var WRAPPER = this.Parser.parseFromString("<div class='anti'></div>", "text/html").documentElement;
