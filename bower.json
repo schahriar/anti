@@ -1,0 +1,32 @@
+{
+  "name": "anti",
+  "main": "./build/anti.js",
+  "version": "0.1.4",
+  "description": "Anti is an XSS protection module.",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "xss",
+    "protection",
+    "cross-site",
+    "scripting",
+    "clean",
+    "DOMParser",
+    "purge",
+    "anti"
+  ],
+  "authors": [
+    "Schahriar SaffarShargh <info@schahriar.com>"
+  ],
+  "license": "MIT",
+  "homepage": "www.npmjs.com/package/anti",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
