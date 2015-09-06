@@ -1,4 +1,4 @@
-![Anti](https://github.com/schahriar/anti/blob/master/Anti.png)
+![Anti](https://raw.githubusercontent.com/schahriar/anti/master/Anti.png)
 
 Anti is an Cross-site Scripting (**XSS**) protection module for the Browser & NodeJS. It uses DOMParser (or NodeJS equivalent [XMLDom](https://github.com/jindw/xmldom)) rather than *Regular expressions* (RegEx) to process DOM just as a browser would. This makes Anti safe to many XSS workarounds by nature.
 
