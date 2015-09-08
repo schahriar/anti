@@ -1,6 +1,6 @@
 {
   "name": "anti",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Anti is an XSS protection module.",
   "author": "Schahriar SaffarShargh <info@schahriar.com>|www.schahriar.com",
   "main": "anti.js",
@@ -13,14 +13,17 @@
     "url": "git+https://github.com/schahriar/anti.git"
   },
   "keywords": [
+    "anti",
     "xss",
     "protection",
+    "security",
     "cross-site",
     "scripting",
     "clean",
     "purge",
-    "DOMParser",
-    "anti"
+    "sanitize",
+    "sanitization",
+    "DOMParser"
   ],
   "license": "MIT",
   "bugs": {
