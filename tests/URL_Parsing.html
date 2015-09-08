@@ -1,0 +1,7 @@
+<a href="http://www.example.com" src="www.google.com" cite="#tag">
+<a href="javascript:alert('xss')">
+<!-- EXPECT -->
+<div class="anti">
+<a href="http://www.example.com" src="www.google.com" cite="%23tag"></a>
+<a href="javascript%3Aalert('xss')"></a>
+</div>
