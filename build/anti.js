@@ -50,6 +50,7 @@
       if(!this.Options.serialize) this.Options.serialize = true;
       if(!this.Options.wrapper) this.Options.wrapper = "<div class='anti'></div>";
       
+      // XMLDOM Throws too many errors
       this.Parser = new ANTI_DOM_PARSER({
         errorHandler: {
           warning: new Function,
@@ -74,30 +75,37 @@
     Anti.prototype.parse = function ANTI_PARSER(HTML_STRING, callback) {
       var ReturnAttributes = [];
       
-      // Get document and is root
+      // Get document and is root (ParsedROOT could be null)
       var ParsedROOT = this._parseToImmediateDOM(HTML_STRING.toString());
-      
+
       /* HTML xmlns tag is retained on the wrapper */
       // Wrapper element
       var WRAPPER = this.Parser.parseFromString(this.Options.wrapper, "text/html").documentElement;
       // Browser Fix (Browsers wrap the element in an HTML parent)
       if (WRAPPER.nodeName.toLowerCase() === 'html') WRAPPER = (WRAPPER.childNodes[1])?WRAPPER.childNodes[1].childNodes[0]:WRAPPER;
       
-      // Copies all childen into variable DOM
-      // Since the object above is not a simple JS Array (Should have a DOM-like structure on Browsers)
-      // I took the liberty to copy only what we need into a clean Array
-      this._cleanDOM(ParsedROOT, this._(ParsedROOT).children());
-      
-      // Clean Root
-      var BODY_CHILDREN = this._(ParsedROOT).children();
-      this._(WRAPPER).children(BODY_CHILDREN);
+      if (ParsedROOT !== null) {
+        // Copies all childen into variable DOM
+        // Since the object above is not a simple JS Array (Should have a DOM-like structure on Browsers)
+        // I took the liberty to copy only what we need into a clean Array
+        this._cleanDOM(ParsedROOT, this._(ParsedROOT).children());
+        
+        // Clean Root
+        var BODY_CHILDREN = this._(ParsedROOT).children();
+        this._(WRAPPER).children(BODY_CHILDREN);
+      }
 
       return (this.Options.serialize) ? this.Serializer.serializeToString(WRAPPER) : WRAPPER;
     }
 
     Anti.prototype._parseToImmediateDOM = function ANTI_TO_IMMEDIATE(HTML_STRING) {
-      var _ROOT_ = null;
-      var _DOCUMENT_ = this.Parser.parseFromString(HTML_STRING, "text/html");
+      var _ROOT_, _DOCUMENT_;
+      // Catch any errors
+      try {
+        _DOCUMENT_ = this.Parser.parseFromString(HTML_STRING, "text/html");
+      }catch(e) {
+        if(e) return null;
+      }
 
       /* Test if this works in every case & if an attacker could confuse it */
       // Decide root from given document
@@ -237,6 +245,9 @@
         parent: function ANTI_DOM_PARENT() {
           // Returns parent node
           return _this._(node.parentNode);
+        },
+        isValid: function ANTI_DOM_ISVALID() {
+          return (node.namespaceURI) || (node.documentElement) || (node.childNodes.length > 0);
         },
         node: node,
         ANTI_WRAPPED: true
