@@ -160,7 +160,7 @@
                 // If InlineCSS is enabled
                 if(_this.Options.experimentalInlineCSS && _this._parseInlineCSS) node.setAttribute(attr.name, _this._parseInlineCSS(attr.value));
               } else {
-                node.setAttribute(attr.name, encodeURIComponent(attr.value));
+                node.setAttribute(attr.name, (_this._isValidURL(attr.value))?encodeURI(attr.value):encodeURIComponent(attr.value));
               }
             } else {
               node.removeAttribute(attr.name);
@@ -264,6 +264,7 @@
       return (OUTPUT === "OBJECT") ? CSSOM_KEY_VALUE_STORE : OUTPUT_STRING;
     }
     
+    /*</EXPERIMENTAL>*/
     Anti.prototype._isValidURL = function ANTI_VALID_URL(URL_STRING) {
       // Credits to Diego Perini https://gist.github.com/dperini/729294
       // MIT License found at CREDITS file
@@ -305,7 +306,6 @@
       );
       return URL_TEST.test(URL_STRING);
     }
-    /*</EXPERIMENTAL>*/
     
     // Helper functions (jQuery like)
     Anti.prototype._ = function ANTI_NODE_EXT(node) {
