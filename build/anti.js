@@ -69,7 +69,7 @@
       this.ACCEPTABLE_SANITARY_ATTRIBUTES = ["abbr", "align", "alt", "axis", "bgcolor", "border", "cellpadding", "cellspacing", "class", "clear", "color", "cols", "colspan", "compact", "coords", "dir", "face", "headers", "height", "hreflang", "hspace", "ismap", "lang", "language", "nohref", "nowrap", "rel", "rev", "rows", "rowspan", "rules", "scope", "scrolling", "shape", "size", "span", "start", "summary", "tabindex", "target", "title", "type", "valign", "value", "vspace", "width"];
 
       this.ACCEPTABLE_UNSANITARY_ATTRIBUTES = ["background", "cite", "href", "longdesc", "src", "usemap", "style", "xlink:href"];
-      /*</EXPERIMENTAL>*/
+      
     };
 
     Anti.prototype.parse = function ANTI_PARSER(HTML_STRING, callback) {
@@ -176,7 +176,7 @@
       return (ARRAY.indexOf(NAME_STRING.toLowerCase()) >= 0);
     }
 
-    /*</EXPERIMENTAL>*/
+    
     Anti.prototype._isValidURL = function ANTI_VALID_URL(URL_STRING) {
       // Credits to Diego Perini https://gist.github.com/dperini/729294
       // MIT License found at CREDITS file

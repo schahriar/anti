@@ -17,8 +17,9 @@ gulp.task('default', function() {
 			}
 		}else{
 			if ((BUFFER[i] === '/') && (GET(BUFFER, i, 19) === "/*</EXPERIMENTAL>*/")) {
-				NXBUFFER += '/'; // Make sure we retain /*</EXPERIMENTAL>*/ for easier removal later on
 				INBLOCK = false;
+				// Skip 18 Characters to remove the end tag
+				i += 18;
 			}
 		}
 	}
